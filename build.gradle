@@ -1,0 +1,37 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.2'
+	id 'io.spring.dependency-management' version '1.1.2'
+}
+
+group = 'cl.saraos'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+	maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation "org.spockframework:spock-core"
+    testImplementation "org.spockframework:spock-junit4"
+    testImplementation "org.spockframework:spock-spring"
+
+    // optional dependencies for using Spock
+    testRuntimeOnly 'net.bytebuddy:byte-buddy:1.12.17' // allows mocking of classes (in addition to interfaces)
+    testRuntimeOnly "org.objenesis:objenesis:3.3"      // allows mocking of classes without default constructor (together with ByteBuddy or CGLIB)
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
