@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.1.2'
+	id 'org.springframework.boot' version '2.7.14'
 	id 'io.spring.dependency-management' version '1.1.2'
 }
 
@@ -8,7 +8,7 @@ group = 'cl.saraos'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility = '8'
 }
 
 repositories {
@@ -17,12 +17,15 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-security:3.0.4'
-	implementation 'org.springframework.boot:spring-boot-starter-web:3.1.0'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools:3.0.4'
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.7.14'
+	implementation('org.springframework.boot:spring-boot-starter-validation:2.2.6.RELEASE')
+	implementation 'org.springframework.boot:spring-boot-starter-websocket:2.7.14'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	compileOnly 'org.projectlombok:lombok:1.18.26'
+	annotationProcessor 'org.projectlombok:lombok:1.18.26'
 	runtimeOnly 'com.h2database:h2:2.1.214'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.0'
-	testImplementation 'org.springframework.security:spring-security-test:6.0.2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.3.4.RELEASE'
+	testImplementation 'org.springframework.security:spring-security-test:6.1.2'
     testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
     testImplementation 'org.spockframework:spock-junit4:2.3-groovy-4.0'
     testImplementation 'org.spockframework:spock-spring:2.3-groovy-4.0'
