@@ -1,5 +1,8 @@
 package cl.saraos.bank.service;
 
+import cl.saraos.bank.exceptions.UnauthorizedException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Service
 public class JwtTokenService {
@@ -24,14 +28,16 @@ public class JwtTokenService {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
-
-    public boolean validateToken(String token){
+    public boolean validateToken(String token) {
+        return Objects.nonNull(this.getTokenClaims(token));
+    }
+    public Jws<Claims> getTokenClaims(String token){
         try {
             // Valida el token usando la clave secreta
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return claimsJws;
         } catch (JwtException e) {
-            return false;
+            throw new UnauthorizedException(e.getMessage());
         }
-        return true;
     }
 }

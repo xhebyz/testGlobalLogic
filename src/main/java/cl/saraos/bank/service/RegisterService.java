@@ -71,7 +71,7 @@ public class RegisterService {
                 .password(userSaved.getPassword())
                 .lastLogin(userSaved.getLastLogin())
                 .created(userSaved.getCreatedAt())
-                .phones(user.getPhones().stream().map(
+                .phones(userSaved.getPhones().stream().map(
                         phoneEntity -> Phone.builder()
                                 .number(phoneEntity.getNumber())
                                 .citycode(phoneEntity.getCitycode())

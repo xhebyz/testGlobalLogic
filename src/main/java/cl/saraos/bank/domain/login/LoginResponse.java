@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -13,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponse {
-    private String id;
-    private String created;
-    private String lastLogin;
+    private Long id;
+    private Date created;
+    private Date lastLogin;
     private String token;
     private boolean isActive;
     private String name;
