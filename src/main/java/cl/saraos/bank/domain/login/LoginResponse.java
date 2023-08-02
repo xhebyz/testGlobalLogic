@@ -1,6 +1,6 @@
 package cl.saraos.bank.domain.login;
 
-import cl.saraos.bank.domain.commons.Phones;
+import cl.saraos.bank.domain.commons.Phone;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +21,5 @@ public class LoginResponse {
     private String name;
     private String email;
     private String password;
-    private List<Phones> phones;
+    private List<Phone> phones;
 }

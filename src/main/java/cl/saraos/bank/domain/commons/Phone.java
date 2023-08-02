@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Phones {
+public class Phone {
     private Long number;
     private int citycode;
     private String contrycode;

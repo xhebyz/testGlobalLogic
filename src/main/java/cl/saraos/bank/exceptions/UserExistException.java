@@ -1,0 +1,8 @@
+package cl.saraos.bank.exceptions;
+
+public class UserExistException extends RuntimeException{
+
+    public UserExistException(String message) {
+        super(message);
+    }
+}

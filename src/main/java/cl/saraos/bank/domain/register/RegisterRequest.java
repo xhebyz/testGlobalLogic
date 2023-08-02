@@ -1,13 +1,10 @@
 package cl.saraos.bank.domain.register;
 
-import cl.saraos.bank.domain.commons.Phones;
+import cl.saraos.bank.domain.commons.Phone;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,5 +29,5 @@ public class RegisterRequest {
     @NotNull(message = "La contraseña no puede ser nula")
     private String password;
 
-    private List<Phones> phones;
+    private List<Phone> phones;
 }

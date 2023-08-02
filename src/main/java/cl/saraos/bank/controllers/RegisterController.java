@@ -1,6 +1,9 @@
 package cl.saraos.bank.controllers;
 
 import cl.saraos.bank.domain.register.RegisterRequest;
+import cl.saraos.bank.domain.register.RegisterResponse;
+import cl.saraos.bank.service.RegisterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,9 +19,15 @@ import javax.validation.Valid;
 @RequestMapping(value = "/sign-up")
 public class RegisterController {
 
+    private final RegisterService registerService;
+
+    public RegisterController(RegisterService registerService) {
+        this.registerService = registerService;
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> signUp(@Valid @RequestBody RegisterRequest registerRequest) {
-        return ResponseEntity.ok("OK.");
+    public ResponseEntity<RegisterResponse> signUp(@Valid @RequestBody RegisterRequest registerRequest) {
+        return ResponseEntity.ok(registerService.saveUser(registerRequest));
     }
 
 }
