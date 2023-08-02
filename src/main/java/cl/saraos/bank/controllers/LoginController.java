@@ -1,5 +1,6 @@
 package cl.saraos.bank.controllers;
 
+import cl.saraos.bank.aop.AuthToken;
 import cl.saraos.bank.domain.login.LoginRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
+@AuthToken
 @RequestMapping(value = "/login")
 public class LoginController {
 
