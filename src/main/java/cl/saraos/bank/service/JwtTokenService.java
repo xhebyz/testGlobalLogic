@@ -12,7 +12,7 @@ import java.util.Date;
 @Service
 public class JwtTokenService {
     @Value("${jwt.secret}")
-    private static String SECRET_KEY;
+    private String secretKey;
 
     public String generateToken(String username) {
         long expirationTimeMillis = System.currentTimeMillis() + 3600000; // 1 hora de validez
@@ -21,14 +21,14 @@ public class JwtTokenService {
         return Jwts.builder()
                 .setSubject(username)
                 .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public boolean validateToken(String token){
         try {
             // Valida el token usando la clave secreta
-            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         } catch (JwtException e) {
             return false;
         }

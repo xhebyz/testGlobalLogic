@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@AuthToken
+
 @RequestMapping(value = "/login")
 public class LoginController {
 
     @PostMapping
+    @AuthToken
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok("OK.");
     }
