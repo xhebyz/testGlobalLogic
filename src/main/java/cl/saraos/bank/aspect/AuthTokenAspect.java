@@ -1,5 +1,6 @@
 package cl.saraos.bank.aspect;
 
+import cl.saraos.bank.exceptions.UnauthorizedException;
 import cl.saraos.bank.service.JwtTokenService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +49,7 @@ public class AuthTokenAspect {
 
             if (!validate) {
                 // Si el token no es válido, lanza una excepción o realiza la acción deseada.
-                throw new RuntimeException("Token JWT no válido.");
+                throw new UnauthorizedException("Token JWT no válido.");
             }
         }
 
