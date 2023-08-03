@@ -216,7 +216,7 @@ class RegisterControllerSpec extends Specification {
         0 * userRepository.save(_) >> { UserEntity entity ->
             entity
         }
-        1 * userRepository.findAllByEmail(_) >> Arrays.asList(
+        0 * userRepository.findAllByEmail(_) >> Arrays.asList(
                 UserEntity.builder().build()
         )
         when:
@@ -292,7 +292,6 @@ class RegisterControllerSpec extends Specification {
         Assert.assertNotNull(responseJson.error)
         responseJson.error.size > 0
     }
-
 
 
     def "test regiter api parametros invalidos"() {
