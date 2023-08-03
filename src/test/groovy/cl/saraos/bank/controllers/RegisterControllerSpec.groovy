@@ -113,4 +113,242 @@ class RegisterControllerSpec extends Specification {
         Assert.assertNotNull(responseJson.phones)
     }
 
+
+    def "test regiter user exist"() {
+        given:
+
+        def request = """
+{
+    "name": "name",
+    "email": "email@aaa.cl",
+    "password": "Aa12bbvvfg",
+    "phones": [
+        {
+            "number": 122344,
+            "citycode": 11,
+            "contrycode": "CL"
+        }
+    ]
+}
+"""
+
+        def jsonExpectResponse = """ {
+    "id": 3,
+    "created": "ago 03, 2023 01:58:24 PM",
+    "lastLogin": "ago 03, 2023 01:58:24 PM",
+    "token": "",
+    "isActive": true,
+    "name": "name",
+    "email": "email@aaa.cl",
+    "password": "",
+    "phones": [
+        {
+            "number": 122344,
+            "citycode": 11,
+            "contrycode": "CL"
+        }
+    ]
+}"""
+
+        def expectResponse = new JsonSlurper().parseText(jsonExpectResponse)
+        0 * userRepository.save(_) >> { UserEntity entity ->
+            entity
+        }
+        1 * userRepository.findAllByEmail(_) >> Arrays.asList(
+                UserEntity.builder().build()
+        )
+        when:
+        def result = mockMvc.perform(MockMvcRequestBuilders.post("/sign-up").
+                contentType(MediaType.APPLICATION_JSON).
+                content(request)
+        ).andReturn().response
+
+        then:
+        result.status == HttpStatus.FORBIDDEN.value()
+        result.contentType == MediaType.APPLICATION_JSON_VALUE
+
+        and:
+        def responseJson = new JsonSlurper().parseText(result.contentAsString)
+        Assert.assertNotNull(responseJson.error)
+        responseJson.error.size > 0
+
+    }
+
+
+
+    def "test regiter bad value password"() {
+        given:
+
+        def request = """
+{
+    "name": "name",
+    "email": "email@aaa.cl",
+    "password": "Aa12bbvv1fg",
+    "phones": [
+        {
+            "number": 122344,
+            "citycode": 11,
+            "contrycode": "CL"
+        }
+    ]
+}
+"""
+
+        def jsonExpectResponse = """ {
+    "id": 3,
+    "created": "ago 03, 2023 01:58:24 PM",
+    "lastLogin": "ago 03, 2023 01:58:24 PM",
+    "token": "",
+    "isActive": true,
+    "name": "name",
+    "email": "email@aaa.cl",
+    "password": "",
+    "phones": [
+        {
+            "number": 122344,
+            "citycode": 11,
+            "contrycode": "CL"
+        }
+    ]
+}"""
+
+        def expectResponse = new JsonSlurper().parseText(jsonExpectResponse)
+        0 * userRepository.save(_) >> { UserEntity entity ->
+            entity
+        }
+        1 * userRepository.findAllByEmail(_) >> Arrays.asList(
+                UserEntity.builder().build()
+        )
+        when:
+        def result = mockMvc.perform(MockMvcRequestBuilders.post("/sign-up").
+                contentType(MediaType.APPLICATION_JSON).
+                content(request)
+        ).andReturn().response
+
+        then:
+        result.status == HttpStatus.BAD_REQUEST.value()
+        result.contentType == MediaType.APPLICATION_JSON_VALUE
+
+        and:
+        def responseJson = new JsonSlurper().parseText(result.contentAsString)
+        Assert.assertNotNull(responseJson.error)
+        responseJson.error.size > 0
+    }
+
+
+    def "test regiter api correo invalido"() {
+        given:
+
+        def request = """
+{
+    "name": "name",
+    "email": "emailaaa.cl",
+    "password": "Aa12bbvvfg",
+    "phones": [
+        {
+            "number": 122344,
+            "citycode": 11,
+            "contrycode": "CL"
+        }
+    ]
+}
+"""
+
+        def jsonExpectResponse = """ {
+    "id": 3,
+    "created": "ago 03, 2023 01:58:24 PM",
+    "lastLogin": "ago 03, 2023 01:58:24 PM",
+    "token": "",
+    "isActive": true,
+    "name": "name",
+    "email": "email@aaa.cl",
+    "password": "",
+    "phones": [
+        {
+            "number": 122344,
+            "citycode": 11,
+            "contrycode": "CL"
+        }
+    ]
+}"""
+
+        def expectResponse = new JsonSlurper().parseText(jsonExpectResponse)
+        0 * userRepository.save(_) >> { UserEntity entity ->
+            entity
+        }
+        0 * userRepository.findAllByEmail(_) >> Arrays.asList()
+        when:
+        def result = mockMvc.perform(MockMvcRequestBuilders.post("/sign-up").
+                contentType(MediaType.APPLICATION_JSON).
+                content(request)
+        ).andReturn().response
+
+        then:
+        result.status == HttpStatus.BAD_REQUEST.value()
+        result.contentType == MediaType.APPLICATION_JSON_VALUE
+
+        and:
+        def responseJson = new JsonSlurper().parseText(result.contentAsString)
+        Assert.assertNotNull(responseJson.error)
+        responseJson.error.size > 0
+    }
+
+
+
+    def "test regiter api parametros invalidos"() {
+        given:
+
+        def request = """
+{
+    "name": "name",
+    "email": "emailaaa.cl",
+    "password": "Aa12bbvAvfg",
+    "phones": [
+        {
+            "number": 122344,
+            "citycode": 11,
+            "contrycode": "CL"
+        }
+    ]
+}
+"""
+
+        def jsonExpectResponse = """ {
+    "id": 3,
+    "created": "ago 03, 2023 01:58:24 PM",
+    "lastLogin": "ago 03, 2023 01:58:24 PM",
+    "token": "",
+    "isActive": true,
+    "name": "name",
+    "email": "email@aaa.cl",
+    "password": "",
+    "phones": [
+        {
+            "number": 122344,
+            "citycode": 11,
+            "contrycode": "CL"
+        }
+    ]
+}"""
+
+        def expectResponse = new JsonSlurper().parseText(jsonExpectResponse)
+        0 * userRepository.save(_) >> { UserEntity entity ->
+            entity
+        }
+        0 * userRepository.findAllByEmail(_) >> Arrays.asList()
+        when:
+        def result = mockMvc.perform(MockMvcRequestBuilders.post("/sign-up").
+                contentType(MediaType.APPLICATION_JSON).
+                content(request)
+        ).andReturn().response
+
+        then:
+        result.status == HttpStatus.BAD_REQUEST.value()
+        result.contentType == MediaType.APPLICATION_JSON_VALUE
+
+        and:
+        def responseJson = new JsonSlurper().parseText(result.contentAsString)
+        Assert.assertNotNull(responseJson.error)
+        responseJson.error.size == 2
+    }
 }

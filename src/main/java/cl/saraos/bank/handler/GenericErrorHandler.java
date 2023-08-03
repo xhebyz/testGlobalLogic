@@ -3,6 +3,7 @@ package cl.saraos.bank.handler;
 import cl.saraos.bank.domain.ErrorResponse;
 import cl.saraos.bank.exceptions.UnauthorizedException;
 import cl.saraos.bank.exceptions.UserExistException;
+import cl.saraos.bank.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -63,6 +64,22 @@ public class GenericErrorHandler {
 
         return ResponseEntity.status(errorResponse.getError().stream().findFirst().get().getCodigo()).body(errorResponse);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotExist(UserNotFoundException ex) {
+
+        ErrorResponse errorResponse = ErrorResponse.builder().error(
+                Arrays.asList(ErrorResponse.Error.builder()
+                        .codigo(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                        .detail(ex.getMessage())
+                        .timestamp(LocalDateTime.now())
+                        .build())
+        ).build();
+
+
+        return ResponseEntity.status(errorResponse.getError().stream().findFirst().get().getCodigo()).body(errorResponse);
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {

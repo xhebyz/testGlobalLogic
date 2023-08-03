@@ -28,8 +28,8 @@ public class RegisterRequest {
     @NotNull(message = "El correo no puede ser nulo")
     private String email;
 
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d.*\\d)(?!.*\\s)(?!.*[a-z]{13,})(?!.*[A-Z]{2,})(?!.*\\d{3,})(?!.*\\W).{8," +
-            "12}$", message = "La clave no cumple con el formato requerido.")
+    @Pattern(regexp = "^(?=(?:[^A-Z]*[A-Z]){1})(?!.*[A-Z].*[A-Z])(?=(?:\\D*\\d){2})(?!.*\\d.*\\d.*\\d)[A-Za-z0-9]{8,12}$"
+            , message = "La clave no cumple con el formato requerido.")
     @NotNull(message = "La contraseña no puede ser nula")
     private String password;
 

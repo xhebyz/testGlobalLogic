@@ -103,6 +103,7 @@ class LoginControllerSpec extends Specification{
                 .email(responseExpected.email)
                 .password(responseExpected.password)
                 .phones(phones)
+                .id(3)
                 .isActive(true)
                 .build()
         1 * userRepository.save(_) >> user
@@ -131,5 +132,152 @@ class LoginControllerSpec extends Specification{
 
 
     }
+
+    def "test login api not auth"() {
+        given:
+
+        def token = "Cualquier cosa"
+
+
+        def request = String.format("""{
+    "token" : "%s"
+}
+""", token)
+
+        def jsonResponseExpected = """
+{
+    "id": 3,
+    "created": "ago 03, 2023 01:58:24 PM",
+    "lastLogin": "ago 03, 2023 01:58:24 PM",
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFpbEBhYWEuY2wiLCJleHAiOjE2OTEwMTU0ODB9.ZJ8tLuQuD8if57idR1YTLF2njVvgCihnhfVkJcU8T4s",
+    "name": "name",
+    "email": "email@aaa.cl",
+    "password": "\$2a\$10\$/tvLgIoVvxNA1NW6Snnwn.h3dPy.JRtoOAVHUEh8vhbfy1wMh4r4y",
+    "phones": [
+        {
+            "number": 122344,
+            "citycode": 11,
+            "contrycode": "CL"
+        }
+    ],
+    "active": true
+}
+"""
+
+
+        def responseExpected = new JsonSlurper().parseText(jsonResponseExpected)
+
+        List<PhoneEntity> phones = responseExpected.phones.stream()
+                .map(phone -> {
+                    PhoneEntity.builder().contrycode(phone.contrycode).citycode(phone.citycode).number(phone.number)
+                            .build()
+                }).collect(Collectors.toList())
+
+
+        def user = UserEntity.builder()
+                .lastLogin(inputFormat.parse(responseExpected.lastLogin))
+                .createdAt(inputFormat.parse(responseExpected.created))
+                .name(responseExpected.name)
+                .password(responseExpected.password)
+                .email(responseExpected.email)
+                .password(responseExpected.password)
+                .phones(phones)
+                .id(3)
+                .isActive(true)
+                .build()
+        0 * userRepository.save(_) >> user
+        0 * userRepository.findAllByEmail("email@aaa.cl") >> Arrays.asList(
+                user
+        )
+        when:
+        def result = mockMvc.perform(MockMvcRequestBuilders.post("/login").
+                contentType(MediaType.APPLICATION_JSON).
+                content(request)
+        ).andReturn().response
+
+        then:
+        result.status == HttpStatus.UNAUTHORIZED.value()
+        result.contentType == MediaType.APPLICATION_JSON_VALUE
+
+        and:
+        def responseJson = new JsonSlurper().parseText(result.contentAsString)
+        Assert.assertNotNull(responseJson.error)
+        responseJson.error.size > 0
+    }
+
+
+    def "test login api user not exist"() {
+        given:
+
+        def token = jwtTokenService.generateToken("email@lala.cl")
+
+
+        def request = String.format("""{
+    "token" : "%s"
+}
+""", token)
+
+        def jsonResponseExpected = """
+{
+    "id": 3,
+    "created": "ago 03, 2023 01:58:24 PM",
+    "lastLogin": "ago 03, 2023 01:58:24 PM",
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFpbEBhYWEuY2wiLCJleHAiOjE2OTEwMTU0ODB9.ZJ8tLuQuD8if57idR1YTLF2njVvgCihnhfVkJcU8T4s",
+    "name": "name",
+    "email": "email@aaa.cl",
+    "password": "\$2a\$10\$/tvLgIoVvxNA1NW6Snnwn.h3dPy.JRtoOAVHUEh8vhbfy1wMh4r4y",
+    "phones": [
+        {
+            "number": 122344,
+            "citycode": 11,
+            "contrycode": "CL"
+        }
+    ],
+    "active": true
+}
+"""
+
+
+        def responseExpected = new JsonSlurper().parseText(jsonResponseExpected)
+
+        List<PhoneEntity> phones = responseExpected.phones.stream()
+                .map(phone -> {
+                    PhoneEntity.builder().contrycode(phone.contrycode).citycode(phone.citycode).number(phone.number)
+                            .build()
+                }).collect(Collectors.toList())
+
+
+        def user = UserEntity.builder()
+                .lastLogin(inputFormat.parse(responseExpected.lastLogin))
+                .createdAt(inputFormat.parse(responseExpected.created))
+                .name(responseExpected.name)
+                .password(responseExpected.password)
+                .email(responseExpected.email)
+                .password(responseExpected.password)
+                .phones(phones)
+                .id(3)
+                .isActive(true)
+                .build()
+        0 * userRepository.save(_) >> user
+        1 * userRepository.findAllByEmail(_) >> Arrays.asList(
+        )
+        when:
+        def result = mockMvc.perform(MockMvcRequestBuilders.post("/login").
+                contentType(MediaType.APPLICATION_JSON).
+                content(request)
+        ).andReturn().response
+
+        then:
+        result.status == HttpStatus.UNPROCESSABLE_ENTITY.value()
+        result.contentType == MediaType.APPLICATION_JSON_VALUE
+
+        and:
+        def responseJson = new JsonSlurper().parseText(result.contentAsString)
+        Assert.assertNotNull(responseJson.error)
+        responseJson.error.size > 0
+    }
+
+
+
 
 }

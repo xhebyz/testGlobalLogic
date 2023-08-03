@@ -5,12 +5,15 @@ import cl.saraos.bank.domain.login.LoginRequest;
 import cl.saraos.bank.domain.login.LoginResponse;
 import cl.saraos.bank.domain.register.RegisterResponse;
 import cl.saraos.bank.entity.UserEntity;
+import cl.saraos.bank.exceptions.UnauthorizedException;
+import cl.saraos.bank.exceptions.UserNotFoundException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +34,10 @@ public class LoginService {
         Jws<Claims> claimsJws = jwtTokenService.getTokenClaims(token);
         String email = claimsJws.getBody().getSubject();
         UserEntity userSaved = userService.getUser(email);
+
+        if(Objects.isNull(userSaved)){
+            throw new UserNotFoundException("Usuario no existe");
+        }
 
         //save login date
         userSaved.setLastLogin(new Date());
