@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -25,7 +26,7 @@ public class GenericErrorHandler {
         ErrorResponse errorResponse = ErrorResponse.builder().error(
                 Arrays.asList(ErrorResponse.Error.builder()
                         .codigo(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                        .detail(ex.getMessage())
+                        .detail(Objects.nonNull(ex.getMessage()) ? ex.getMessage(): "Error de Servidor")
                         .timestamp(LocalDateTime.now())
                         .build())
         ).build();

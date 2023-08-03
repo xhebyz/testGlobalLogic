@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	id 'groovy'
 	id 'org.springframework.boot' version '2.7.14'
 	id 'io.spring.dependency-management' version '1.1.2'
 }
@@ -8,11 +9,12 @@ group = 'cl.saraos'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '8'
+	sourceCompatibility = 1.8
 }
 
 repositories {
 	mavenCentral()
+	jcenter()
 	maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
 }
 
@@ -25,7 +27,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.26'
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.3.4.RELEASE'
-    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+	testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
     testImplementation 'org.spockframework:spock-junit4:2.3-groovy-4.0'
     testImplementation 'org.spockframework:spock-spring:2.3-groovy-4.0'
 
@@ -42,9 +44,20 @@ dependencies {
 	// optional dependencies for using Spock
     testRuntimeOnly 'net.bytebuddy:byte-buddy:1.14.2' // allows mocking of classes (in addition to interfaces)
     testRuntimeOnly "org.objenesis:objenesis:3.3"      // allows mocking of classes without default constructor (together with ByteBuddy or CGLIB)
-
+	implementation 'org.apache.groovy:groovy-json:4.0.13'
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
+
+sourceSets {
+	test {
+		java.srcDirs = ['src/test/groovy', 'src/test/java']
+		groovy.srcDirs = ['src/test/groovy', 'src/test/java']
+		resources.srcDirs = ['src/test/resources']
+	}
 }

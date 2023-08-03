@@ -1,6 +1,7 @@
 package cl.saraos.bank.domain.login;
 
 import cl.saraos.bank.domain.commons.Phone;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 public class LoginResponse {
     private Long id;
+    @JsonFormat(pattern = "MMM dd, yyyy hh:mm:ss a")
     private Date created;
+    @JsonFormat(pattern = "MMM dd, yyyy hh:mm:ss a")
     private Date lastLogin;
     private String token;
     private boolean isActive;
