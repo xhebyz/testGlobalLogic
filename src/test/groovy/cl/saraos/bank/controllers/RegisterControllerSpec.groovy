@@ -150,7 +150,6 @@ class RegisterControllerSpec extends Specification {
     ]
 }"""
 
-        def expectResponse = new JsonSlurper().parseText(jsonExpectResponse)
         0 * userRepository.save(_) >> { UserEntity entity ->
             entity
         }
@@ -212,7 +211,6 @@ class RegisterControllerSpec extends Specification {
     ]
 }"""
 
-        def expectResponse = new JsonSlurper().parseText(jsonExpectResponse)
         0 * userRepository.save(_) >> { UserEntity entity ->
             entity
         }
@@ -272,7 +270,6 @@ class RegisterControllerSpec extends Specification {
     ]
 }"""
 
-        def expectResponse = new JsonSlurper().parseText(jsonExpectResponse)
         0 * userRepository.save(_) >> { UserEntity entity ->
             entity
         }
@@ -330,7 +327,6 @@ class RegisterControllerSpec extends Specification {
     ]
 }"""
 
-        def expectResponse = new JsonSlurper().parseText(jsonExpectResponse)
         0 * userRepository.save(_) >> { UserEntity entity ->
             entity
         }

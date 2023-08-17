@@ -3,7 +3,6 @@ package cl.saraos.bank.controllers;
 import cl.saraos.bank.domain.register.RegisterRequest;
 import cl.saraos.bank.domain.register.RegisterResponse;
 import cl.saraos.bank.service.RegisterService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

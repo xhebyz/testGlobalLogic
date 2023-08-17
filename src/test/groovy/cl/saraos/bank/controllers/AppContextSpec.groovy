@@ -23,7 +23,7 @@ class AppContextSpec extends Specification {
     RegisterController registerController
 
     @Autowired
-    private ExamBankApplication examBankApplication;
+    private ExamBankApplication examBankApplication
 
     def setup() {
         examBankApplication = new ExamBankApplication()

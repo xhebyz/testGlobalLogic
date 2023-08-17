@@ -1,9 +1,7 @@
 package cl.saraos.bank.service;
 
 import cl.saraos.bank.entity.PhoneEntity;
-import cl.saraos.bank.entity.UserEntity;
 import cl.saraos.bank.repository.PhoneRepository;
-import cl.saraos.bank.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

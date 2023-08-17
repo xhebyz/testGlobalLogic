@@ -3,9 +3,7 @@ package cl.saraos.bank.service;
 import cl.saraos.bank.domain.commons.Phone;
 import cl.saraos.bank.domain.login.LoginRequest;
 import cl.saraos.bank.domain.login.LoginResponse;
-import cl.saraos.bank.domain.register.RegisterResponse;
 import cl.saraos.bank.entity.UserEntity;
-import cl.saraos.bank.exceptions.UnauthorizedException;
 import cl.saraos.bank.exceptions.UserNotFoundException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -41,7 +39,7 @@ public class LoginService {
 
         //save login date
         userSaved.setLastLogin(new Date());
-        userService.updateUser(userSaved);
+        userSaved = userService.updateUser(userSaved);
 
         return LoginResponse.builder()
                 .isActive(userSaved.getIsActive())

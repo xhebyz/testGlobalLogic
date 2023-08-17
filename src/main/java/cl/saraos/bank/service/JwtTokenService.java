@@ -8,7 +8,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.Date;
 import java.util.Objects;
@@ -33,9 +32,8 @@ public class JwtTokenService {
     }
     public Jws<Claims> getTokenClaims(String token){
         try {
-            // Valida el token usando la clave secreta
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            return claimsJws;
+            // Válida el token usando la clave secreta
+            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         } catch (JwtException e) {
             throw new UnauthorizedException(e.getMessage());
         }

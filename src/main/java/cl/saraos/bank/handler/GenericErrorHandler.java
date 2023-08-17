@@ -9,11 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -25,9 +25,9 @@ public class GenericErrorHandler {
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
 
         ErrorResponse errorResponse = ErrorResponse.builder().error(
-                Arrays.asList(ErrorResponse.Error.builder()
+                Collections.singletonList(ErrorResponse.Error.builder()
                         .codigo(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                        .detail(Objects.nonNull(ex.getMessage()) ? ex.getMessage(): "Error de Servidor")
+                        .detail(Objects.nonNull(ex.getMessage()) ? ex.getMessage() : "Error de Servidor")
                         .timestamp(LocalDateTime.now())
                         .build())
         ).build();
@@ -39,10 +39,10 @@ public class GenericErrorHandler {
     public ResponseEntity<ErrorResponse> handleUserExistException(UserExistException ex) {
 
         ErrorResponse errorResponse = ErrorResponse.builder().error(
-                Arrays.asList(ErrorResponse.Error.builder()
-                                .codigo(HttpStatus.FORBIDDEN.value())
-                                .detail(ex.getMessage())
-                                .timestamp(LocalDateTime.now())
+                Collections.singletonList(ErrorResponse.Error.builder()
+                        .codigo(HttpStatus.FORBIDDEN.value())
+                        .detail(ex.getMessage())
+                        .timestamp(LocalDateTime.now())
                         .build())
         ).build();
 
@@ -69,7 +69,7 @@ public class GenericErrorHandler {
     public ResponseEntity<ErrorResponse> handleUserNotExist(UserNotFoundException ex) {
 
         ErrorResponse errorResponse = ErrorResponse.builder().error(
-                Arrays.asList(ErrorResponse.Error.builder()
+                Collections.singletonList(ErrorResponse.Error.builder()
                         .codigo(HttpStatus.UNPROCESSABLE_ENTITY.value())
                         .detail(ex.getMessage())
                         .timestamp(LocalDateTime.now())

@@ -6,7 +6,6 @@ import cl.saraos.bank.domain.register.RegisterResponse;
 import cl.saraos.bank.entity.PhoneEntity;
 import cl.saraos.bank.entity.UserEntity;
 import cl.saraos.bank.exceptions.UserExistException;
-import cl.saraos.bank.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
